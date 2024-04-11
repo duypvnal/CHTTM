@@ -14,10 +14,3 @@ const handleRedirect = (name) => {
 
     </div>
 </template>
-
-<style scoped>
-#app {
-    height: 100vh;
-    width: 100vw;
-}
-</style>

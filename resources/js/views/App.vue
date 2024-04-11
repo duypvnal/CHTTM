@@ -1,13 +1,17 @@
 <script>
-import { defineComponent } from "vue";
+import {defineComponent} from "vue";
 import AppLayout from "../layout/AppLayout.vue"
 
 export default defineComponent({
-    components: { AppLayout },
+    components: {AppLayout},
 });
 </script>
 <template>
-    <router-view />
-<!--    <h1>Hello World</h1>-->
+    <router-view/>
 </template>
-<style scoped lang="scss"></style>
+<style lang="scss">
+#app {
+    width: 100vw;
+    overflow-x: hidden;
+}
+</style>
