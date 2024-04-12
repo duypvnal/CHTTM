@@ -12,6 +12,22 @@ class SkillsSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        $skills = [
+          ['name'=> 'Lập trình'],
+          ['name'=> 'Ngoại ngữ'],
+          ['name'=> 'Lái xe'],
+          ['name'=> 'PHP'],
+          ['name'=> 'Giảng dạy'],
+          ['name'=> 'Java'],
+          ['name'=> 'Tiếng Anh'],
+          ['name'=> 'Tiếng Trung'],
+          ['name'=> 'Tiếng Nhật'],
+          ['name'=> 'Quản trị hệ thống'],
+          ['name'=> 'Tin học cơ bản'],
+        ];
+
+        foreach ($skills as $skill) {
+            \App\Models\Skill::create($skill);
+        }
     }
 }

@@ -11,10 +11,16 @@
                         <el-menu-item index="2">Việc làm yêu thích</el-menu-item>
                         <el-menu-item index="3">Công ty</el-menu-item>
                         <div class="login-register-btns">
-                            <el-button @click="openDialogLogin" class="login-btn btn">Đăng nhập
-                            </el-button>
+                            <el-select v-model="userSelect" clearable placeholder="Select">
+                                <el-option
+                                    v-for="item in users"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
                             <el-button @click="this.isOpenDialogRegister = true" type="success"
-                                       class="register-btn btn">Đăng ký
+                                       class="register-btn btn">Đăng nhập
                             </el-button>
                         </div>
                     </el-menu>
@@ -208,6 +214,7 @@
 
 import {defineComponent} from "vue";
 import {Message, PhoneFilled} from "@element-plus/icons-vue";
+import axios from "axios";
 
 export default defineComponent({
     components: {Message, PhoneFilled},
@@ -232,14 +239,28 @@ export default defineComponent({
                 resource: '',
                 desc: ''
             },
-            formLabelWidth: '120px'
+            formLabelWidth: '120px',
+            users: [],
+            userSelect: '',
         }
     },
-    computed: {},
+    computed: {
+    },
     methods: {
-        openDialogLogin() {
-            this.isOpenDialogLogin = true;
-        },
+        async getAllUsers() {
+            try {
+                const response = await axios.get(
+                    "http://localhost:8000/api/users",
+                    {},
+                );
+                this.users = response.data.data;
+            } catch (error) {
+                console.error("Error fetching categories:", error);
+            }
+        }
+    },
+    async mounted() {
+        await this.getAllUsers()
     }
 })
 </script>
