@@ -2,11 +2,12 @@ import {createRouter, createWebHistory} from "vue-router";
 import store from "../stores/_loader";
 import {HomeRoutes} from "./HomeRoutes.js";
 import {AdminRoutes} from "./AdminRoutes.js";
+import { JobRoutes } from "./JobRoutes.js";
 
 
 const routers = createRouter({
     history: createWebHistory(),
-    routes: [...HomeRoutes, ...AdminRoutes],
+    routes: [...HomeRoutes, ...AdminRoutes, ...JobRoutes],
 });
 routers.beforeEach(async (to, from, next) => {
     console.log("from", from.path);
