@@ -18,4 +18,7 @@ Route::middleware('api')->group(function () {
     Route::prefix('users')->group(function () {
         Route::get('/', [UserController::class, 'index']);
     });
+
+    Route::get('get-all-skills', [UserController::class, 'getAllSkills']);
+    Route::get('get-all-job-positions', [UserController::class, 'getAllJobPositions']);
 });
