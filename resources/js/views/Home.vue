@@ -7,7 +7,7 @@
                                              class="header-logo"></el-aside>
                 <el-header>
                     <el-menu mode="horizontal" class="center-menu-items">
-                        <el-menu-item index="1">Việc làm phù hợp</el-menu-item>
+                        <el-menu-item index="1" @click="goToJobs">Việc làm phù hợp</el-menu-item>
                         <el-menu-item index="2">Việc làm yêu thích</el-menu-item>
                         <el-menu-item index="3">Công ty</el-menu-item>
                         <div class="login-register-btns">
@@ -215,6 +215,7 @@
 import {defineComponent} from "vue";
 import {Message, PhoneFilled} from "@element-plus/icons-vue";
 import axios from "axios";
+import routers from '../routes/index'
 
 export default defineComponent({
     components: {Message, PhoneFilled},
@@ -257,7 +258,11 @@ export default defineComponent({
             } catch (error) {
                 console.error("Error fetching categories:", error);
             }
-        }
+        },
+        goToJobs() {
+          const router = routers
+          router.push('/jobs')
+        },
     },
     async mounted() {
         await this.getAllUsers()
@@ -323,7 +328,9 @@ export default defineComponent({
                 background-color: #00b14f;
             }
         }
-
+        .el-aside {
+            overflow: unset;
+        }
         .header-logo {
             width: 200px;
             height: 80px;
