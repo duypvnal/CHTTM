@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\JobPosition;
 use App\Models\Skill;
 use App\Models\User;
+use App\Models\UserRequirement;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class UserController extends BaseApiController
 {
@@ -34,4 +36,17 @@ class UserController extends BaseApiController
         ], 200);
     }
 
+    public function saveUserRequirements(Request $request): JsonResponse
+    {
+        $data = $request->all();
+        if (UserRequirement::updateOrInsert($data)) {
+            return response()->json([
+                'success' => true,
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+            ], 200);
+        }
+    }
 }

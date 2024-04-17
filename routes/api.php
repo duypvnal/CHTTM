@@ -21,4 +21,5 @@ Route::middleware('api')->group(function () {
 
     Route::get('get-all-skills', [UserController::class, 'getAllSkills']);
     Route::get('get-all-job-positions', [UserController::class, 'getAllJobPositions']);
+    Route::post('save-user-requirements', [UserController::class, 'saveUserRequirements']);
 });

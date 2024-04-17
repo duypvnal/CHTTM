@@ -9,7 +9,7 @@ class UserRequirement extends Model
 {
     use HasFactory;
 
-    protected $table = 'userRequirements';
+    protected $table = 'user_requirements';
 
     protected $fillable = [
         'user_id',

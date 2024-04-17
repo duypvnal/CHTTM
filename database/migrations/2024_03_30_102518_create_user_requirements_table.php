@@ -17,7 +17,6 @@ return new class extends Migration
             $table->boolean('gender')->nullable();
             $table->integer('experience')->nullable();
             $table->integer('salary_expect')->nullable();
-            $table->integer('location')->nullable();
             $table->json('skill_ids')->nullable();
             $table->json('job_position_ids')->nullable();
             $table->json('category_id')->nullable();
