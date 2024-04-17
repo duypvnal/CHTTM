@@ -14,9 +14,9 @@
                             <el-select v-model="userSelect" clearable placeholder="Select">
                                 <el-option
                                     v-for="item in users"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
+                                    :key="item.id"
+                                    :label="item.name"
+                                    :value="item.id">
                                 </el-option>
                             </el-select>
                             <el-button @click="this.isOpenDialogRegister = true" type="success"
