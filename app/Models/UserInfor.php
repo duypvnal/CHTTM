@@ -9,7 +9,7 @@ class UserInfor extends Model
 {
     use HasFactory;
 
-    protected $table = 'userInfors';
+    protected $table = 'user_infors';
 
     protected $fillable = [
         'user_id',

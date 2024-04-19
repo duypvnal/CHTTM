@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('salary_expect')->nullable();
             $table->json('skill_ids')->nullable();
             $table->json('job_position_ids')->nullable();
-            $table->json('category_id')->nullable();
+            $table->json('category_ids')->nullable();
             $table->timestamps();
         });
     }

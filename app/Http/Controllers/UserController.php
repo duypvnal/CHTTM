@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use App\Models\JobPosition;
 use App\Models\Skill;
 use App\Models\User;
@@ -17,6 +18,14 @@ class UserController extends BaseApiController
 
         return response()->json([
             'data' => $users,
+        ], 200);
+    }
+
+    public function show($id) {
+        $user = User::with(['userRequirements', 'userInfor'])->find($id);
+
+        return response()->json([
+            'data' => $user,
         ], 200);
     }
 
@@ -48,5 +57,14 @@ class UserController extends BaseApiController
                 'success' => false,
             ], 200);
         }
+    }
+
+    public function getCompanySuggests()
+    {
+        $companySuggests = Company::inRandomOrder()->take(5)->get();
+
+        return response()->json([
+            'data' => $companySuggests,
+        ], 200);
     }
 }

@@ -5,7 +5,6 @@ export default {
     state() {
         return {
             user: null,
-            info: null,
         };
     },
     getters: {
@@ -25,7 +24,6 @@ export default {
         },
         removeUser(state) {
             state.user = null;
-            state.info = null;
             localStorage.removeItem("user");
             return true;
         },

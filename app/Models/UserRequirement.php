@@ -22,4 +22,20 @@ class UserRequirement extends Model
         'location',
         'created_at'
     ];
+
+    protected $casts = [
+        'skill_ids' => 'array',
+        'job_position_ids' => 'array',
+        'category_ids' => 'array',
+    ];
+
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function skills(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Skill::class);
+    }
 }
