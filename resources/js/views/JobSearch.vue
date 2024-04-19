@@ -14,18 +14,19 @@
   </el-container>
   <el-container>
     <div class="job-list-search-result">
+      <h3>Tuyển dụng {{jobs.length}} việc làm</h3>
       <div v-for="item in jobs" class="job-item-search-result">
-        <div class="avatar"><img :src="item.avatar"/></div>
+        <div class="avatar"><img :src="item.company.image" alt=""/></div>
         <div class="body">
           <div class="body-content">
             <div class="title-block">
               <h3 class="title">
                                 <span>
-                                    {{ item.jobTitle }}
+                                    {{ item.name }}
                                 </span>
               </h3>
               <div class="company-name">
-                {{ item.companyName }}
+                {{ item.company.name }}
               </div>
             </div>
             <div class="salary-block">
@@ -62,17 +63,7 @@ export default defineComponent({
       isOpenDialogLogin: false,
       isOpenDialogRegister: false,
       formLabelWidth: '120px',
-      jobs: [
-        {
-          avatar: 'https://cdn-new.topcv.vn/unsafe/150x/https://static.topcv.vn/company_logos/g7V1Ak5wr4rE8e7XHCrRgtTUIRKd5Moa_1676008072____e6c6679a30771aba54e69a427eec9c22.png',
-          jobTitle: 'Nhân Viên Kinh Doanh/Telesales Nữ (Chỉ Làm 6.5H/Ngày, Data Tiềm Năng Có Sẵn, Không Yêu Cầu Kinh Nghiệm)',
-          companyName: 'Công ty TNHH WESAAM',
-          region: 'Hồ Chí Minh',
-          minSalary: 8,
-          maxSalary: 15,
-          time: 24,
-        },
-      ],
+      jobs: [],
       userSelect: '',
       searchValue: '',
       users: [],
@@ -80,6 +71,18 @@ export default defineComponent({
   },
   computed: {},
   methods: {
+    async getJobs() {
+      try {
+        const response = await axios.get(
+            "http://localhost:8000/api/get-job-suggests",
+            {},
+        );
+        this.jobs = response.data.data;
+        console.log(this.jobs)
+      } catch (error) {
+        console.error("Error fetching Jobs:", error);
+      }
+    },
     async getAllUsers() {
       try {
         const response = await axios.get(
@@ -99,6 +102,7 @@ export default defineComponent({
   },
   async mounted() {
     await this.getAllUsers()
+    await this.getJobs()
     this.userSelect = store.getters["auth/getUser"].id;
   }
 })
