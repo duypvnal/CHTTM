@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\CurrentJob;
 use App\Models\JobPosition;
 use App\Models\Skill;
 use App\Models\User;
@@ -21,7 +22,8 @@ class UserController extends BaseApiController
         ], 200);
     }
 
-    public function show($id) {
+    public function show($id)
+    {
         $user = User::with(['userRequirements', 'userInfor'])->find($id);
 
         return response()->json([
@@ -65,6 +67,15 @@ class UserController extends BaseApiController
 
         return response()->json([
             'data' => $companySuggests,
+        ], 200);
+    }
+
+    public function getJobSuggests(Request $request)
+    {
+        $jobSuggests = CurrentJob::with(['company'])->inRandomOrder()->take(5)->get();
+
+        return response()->json([
+            'data' => $jobSuggests,
         ], 200);
     }
 }

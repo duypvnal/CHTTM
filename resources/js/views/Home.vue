@@ -11,7 +11,8 @@
             <el-menu-item index="2">Việc làm yêu thích</el-menu-item>
             <el-menu-item index="3">Công ty</el-menu-item>
             <div class="login-register-btns" style="width: 180px;">
-              <el-select v-model="userSelect" clearable @clear="clearUser" placeholder="Chọn Profile" @change="updateUserSelect">
+              <el-select v-model="userSelect" clearable @clear="clearUser" placeholder="Chọn Profile"
+                         @change="updateUserSelect">
                 <el-option
                     v-for="item in users"
                     :key="item.id"

@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <div id="header">
-      <el-aside width="200px"><img src="https://static.topcv.vn/v4/image/logo/topcv-logo-6.png"
+      <el-aside width="200px"><img @click="goHome" src="https://static.topcv.vn/v4/image/logo/topcv-logo-6.png"
                                    alt="TopCV tuyen dung tai TopCV" title="TopCV tuyển dụng tại TopCV"
                                    class="header-logo"></el-aside>
       <el-header>
@@ -25,6 +25,7 @@
 import {defineComponent} from "vue";
 import axios from "axios";
 import store from "../stores/_loader.js";
+import routers from "../routes/index.js";
 
 export default defineComponent({
   name: 'GlobalHeader',
@@ -49,6 +50,10 @@ export default defineComponent({
     },
     clearUser() {
       this.$store.commit("auth/removeUser")
+    },
+    goHome() {
+      const router = routers
+      router.push('/')
     },
   },
   async mounted() {

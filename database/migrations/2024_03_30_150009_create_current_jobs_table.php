@@ -11,11 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('currentJobs', function (Blueprint $table) {
+        Schema::create('current_jobs', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('category_id');
             $table->integer('company_id');
+            $table->date('due_date');
+            $table->integer('salary_form')->nullable();
+            $table->integer('salary_to')->nullable();
+            $table->integer('quantity')->nullable();
+            $table->integer('level')->nullable();
+            $table->integer('experience')->nullable();
+            $table->integer('job_type')->nullable(); // 0: full-time, 1: part-time, 3: hybrid, 4: remote
+            $table->boolean('gender')->nullable();
+            $table->json('skill_ids')->nullable();
+            $table->json('job_position_ids')->nullable();
             $table->timestamps();
         });
     }

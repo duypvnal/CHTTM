@@ -24,4 +24,5 @@ Route::middleware('api')->group(function () {
     Route::get('get-all-job-positions', [UserController::class, 'getAllJobPositions']);
     Route::post('save-user-requirements', [UserController::class, 'saveUserRequirements']);
     Route::get('get-company-suggests', [UserController::class, 'getCompanySuggests']);
+    Route::get('get-job-suggests', [UserController::class, 'getJobSuggests']);
 });
