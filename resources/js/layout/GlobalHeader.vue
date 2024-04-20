@@ -6,9 +6,8 @@
                                    class="header-logo"></el-aside>
       <el-header>
         <el-menu mode="horizontal" class="center-menu-items">
-          <el-menu-item index="1">Việc làm phù hợp</el-menu-item>
-          <el-menu-item index="2">Việc làm yêu thích</el-menu-item>
-          <el-menu-item index="3">Công ty</el-menu-item>
+          <el-menu-item @click="goToJob" index="1">Việc làm phù hợp</el-menu-item>
+          <el-menu-item @click="goToSetting" index="3">Cài đặt</el-menu-item>
           <div class="login-register-btns" style="width: 180px">
             <el-select v-model="selected" @clear="clearUser" clearable placeholder="Chọn Profile"
                        @change="updateUserSelect">
@@ -44,17 +43,27 @@ export default defineComponent({
             {},
         );
         this.$store.commit("auth/setUser", response.data.data)
+        window.location.reload()
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
     },
     clearUser() {
       this.$store.commit("auth/removeUser")
+      window.location.reload()
     },
     goHome() {
       const router = routers
       router.push('/')
     },
+    goToSetting() {
+      const router = routers
+      router.push('jobs/settings')
+    },
+    goToJob() {
+      const router = routers
+      router.push('/jobs')
+    }
   },
   async mounted() {
     this.selected = store.getters["auth/getUser"]?.id ?? '';

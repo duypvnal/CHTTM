@@ -1,30 +1,6 @@
 <template>
   <div id="home">
-    <el-container>
-      <div id="header">
-        <el-aside width="200px"><img src="https://static.topcv.vn/v4/image/logo/topcv-logo-6.png"
-                                     alt="TopCV tuyen dung tai TopCV" title="TopCV tuyển dụng tại TopCV"
-                                     class="header-logo"></el-aside>
-        <el-header>
-          <el-menu mode="horizontal" class="center-menu-items">
-            <el-menu-item index="1" @click="goToJobs">Việc làm phù hợp</el-menu-item>
-            <el-menu-item index="2">Việc làm yêu thích</el-menu-item>
-            <el-menu-item index="3">Công ty</el-menu-item>
-            <div class="login-register-btns" style="width: 180px;">
-              <el-select v-model="userSelect" clearable @clear="clearUser" placeholder="Chọn Profile"
-                         @change="updateUserSelect">
-                <el-option
-                    v-for="item in users"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id">
-                </el-option>
-              </el-select>
-            </div>
-          </el-menu>
-        </el-header>
-      </div>
-    </el-container>
+    <GlobalHeader :users="this.users"/>
     <el-container>
       <div class="carousel">
         <el-carousel height="500px">
@@ -215,9 +191,10 @@ import {Message, PhoneFilled} from "@element-plus/icons-vue";
 import axios from "axios";
 import routers from '../routes/index'
 import store from "../stores/_loader.js";
+import GlobalHeader from "../layout/GlobalHeader.vue";
 
 export default defineComponent({
-  components: {Message, PhoneFilled},
+  components: {GlobalHeader, Message, PhoneFilled},
   data() {
     return {
       images: [
@@ -269,10 +246,6 @@ export default defineComponent({
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
-    },
-    goToJobs() {
-      const router = routers
-      router.push('/jobs')
     },
   },
   async mounted() {

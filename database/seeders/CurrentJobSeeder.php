@@ -97,8 +97,8 @@ class CurrentJobSeeder extends Seeder
             [
                 'name' => 'Technical Leader (PHP)',
                 'company_id' => 2,
-                'salary_from' => 40000000,
-                'salary_to' => 50000000,
+                'salary_from' => 8000000,
+                'salary_to' => 11000000,
                 'experience' => 3,
                 'gpa_from' => 3.2,
                 'job_type' => 1
@@ -106,8 +106,8 @@ class CurrentJobSeeder extends Seeder
             [
                 'name' => 'Chuyên Viên Kinh Doanh Khách Hàng Doanh Nghiệp',
                 'company_id' => 2,
-                'salary_from' => 40000000,
-                'salary_to' => 50000000,
+                'salary_from' => 14000000,
+                'salary_to' => 17000000,
                 'experience' => 3,
                 'gpa_from' => 3.2,
                 'job_type' => 1

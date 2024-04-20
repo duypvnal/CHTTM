@@ -9,37 +9,18 @@
     </div>
     <el-form ref="form" class="form" @submit="submit">
       <div class="box-content">
-        <div class="box-info">
-          <div class="title">
-            <span>Thông tin cá nhân</span>
-          </div>
-          <el-form-item class="form-item" label="Giới tính">
-            <el-radio-group v-model="form.gender">
-              <el-radio label="Nữ" :value="0"></el-radio>
-              <el-radio label="Nam" :value="1"></el-radio>
-              <el-radio label="Khác" :value="2"></el-radio>
-            </el-radio-group>
-          </el-form-item>
-        </div>
         <div class="box-need-work">
           <div class="title">
             <span>Nhu cầu công việc</span>
           </div>
           <el-form-item class="form-item" label="Kinh nghiệm làm việc">
-            <el-input required v-model="form.experience" placeholder="Nhập kinh nghiệm làm việc"></el-input>
+            <el-input required v-model="form.exp" placeholder="Nhập kinh nghiệm làm việc"></el-input>
           </el-form-item>
           <el-form-item class="form-item" label="Mức lương mong muốn">
-            <el-input required v-model="form.salary" placeholder="Mức lương mong muốn"></el-input>
+            <el-input required v-model="formattedSalary" placeholder="Mức lương mong muốn"></el-input>
           </el-form-item>
-          <el-form-item class="form-item" label="Loại hình công việc">
-            <el-select v-model="form.salary" placeholder="Chọn loại hình">
-              <el-option
-                  v-for="(item, index) in jobTypeOptions"
-                  :key="index"
-                  :label="item.label"
-                  :value="item.value">
-              </el-option>
-            </el-select>
+          <el-form-item class="form-item" label="Điểm GPA">
+            <el-input required v-model="form.gpa" placeholder="Điểm GPA"></el-input>
           </el-form-item>
         </div>
         <div class="btn-wrap">
@@ -53,18 +34,16 @@
 import {defineComponent} from "vue";
 import GlobalHeader from "../layout/GlobalHeader.vue";
 import {jobOptions, skillOptions, expOptions, jobTypeOptions} from '../../helper'
+import store from "../stores/_loader.js";
 
 export default defineComponent({
   components: {GlobalHeader},
   data() {
     return {
       form: {
-        gender: 0,
-        position: null,
-        jobItems: [],
-        skills: [],
         salary: null,
         exp: null,
+        gpa: null,
       },
       options: [],
       skillOptions: [],
@@ -72,6 +51,13 @@ export default defineComponent({
       jobTypeOptions: jobTypeOptions,
       loading: false,
       users: [],
+      userInfo: [],
+      userId: store.getters["auth/getUser"]?.id ?? '',
+    }
+  },
+  computed: {
+    formattedSalary() {
+      return new Intl.NumberFormat('vi-VN').format(this.form.salary);
     }
   },
   methods: {
@@ -86,11 +72,21 @@ export default defineComponent({
         console.error("Error fetching categories:", error);
       }
     },
+    async getDetailUser() {
+      const response = await axios.get(
+          "http://localhost:8000/api/users/" + this.userId,
+          {},
+      );
+      this.form.gpa = response.data.data.user_infor.gpa
+      this.form.salary = response.data.data.user_infor.salary_expect
+      this.form.exp = response.data.data.user_infor.experience
+    },
     submit() {
     },
   },
   async mounted() {
     await this.getAllUsers();
+    await this.getDetailUser();
   },
 })
 </script>
@@ -102,7 +98,9 @@ export default defineComponent({
   :deep(.el-radio__input.is-checked .el-radio__inner) {
     background-color: #00c056;
     border-color: #00c056;
-  }:deep(.el-radio__input.is-checked+.el-radio__label) {
+  }
+
+  :deep(.el-radio__input.is-checked+.el-radio__label) {
     color: #00c056;
   }
 
@@ -173,6 +171,7 @@ export default defineComponent({
 
   .btn-wrap {
     padding-left: calc(50% - 86px);
+
     .el-button {
       background-color: #00c056;
       color: #fff;

@@ -55,7 +55,7 @@
           <div class="info">
             <div class="label-content">
               <el-tag type="success"> {{ displayJobType(item.job_type) }}</el-tag>
-              <el-tag> GPA từ{{ item.gpa }}</el-tag>
+              <el-tag> GPA từ {{ item.gpa_from }}</el-tag>
               <el-tag type="warning"> {{ displayExperience(item.experience) }}</el-tag>
             </div>
             <div class="icon">
