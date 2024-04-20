@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('user_infors', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
+            $table->integer('category_id');
             $table->integer('salary_expect');
             $table->float('gpa');
             $table->float('experience');

@@ -19,6 +19,7 @@ class CurrentJob extends Model
         'experience',
         'gpa_from',
         'job_type',
+        'category_id',
         'created_at'
     ];
 

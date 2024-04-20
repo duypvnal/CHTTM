@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('current_jobs', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->integer('category_id');
             $table->integer('company_id');
             $table->integer('salary_from')->nullable();
             $table->integer('salary_to')->nullable();

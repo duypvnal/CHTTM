@@ -16,6 +16,7 @@ class UserInfor extends Model
         'gpa',
         'salary_expect',
         'experience',
+        'category_id',
         'created_at'
     ];
 }
