@@ -4,11 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use App\Models\CurrentJob;
-use App\Models\JobPosition;
-use App\Models\Skill;
 use App\Models\User;
-use App\Models\UserRequirement;
-use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -65,8 +61,10 @@ class UserController extends BaseApiController
     {
         $search = $request->get('search');
         $userId = $request->get('user_id');
-        $user = User::find($userId);
-
+        $salary = $request->get('salary');
+        $gpa = $request->get('gpa');
+        $experience = $request->get('experience');
+        $user = User::with('userInfor')->find($userId);
 
         $query = CurrentJob::query();
         if ($search) {

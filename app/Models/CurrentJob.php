@@ -9,13 +9,6 @@ class CurrentJob extends Model
 {
     use HasFactory;
 
-    const JOB_TYPE = [
-        'Toàn thời gian',
-        'Bán thời gian',
-        'Hybrid',
-        'Remote'
-    ];
-
     protected $table = 'current_jobs';
 
     protected $fillable = [

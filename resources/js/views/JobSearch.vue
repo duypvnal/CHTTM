@@ -4,10 +4,10 @@
     <div class="job-header">
       <div class="box-search-job" id="box-search-job">
         <div class="container">
-          <el-input @keydown.enter="onSearch" placeholder="Vị trí tuyển dụng" prefix-icon="Search"
+          <el-input @keydown.enter="getJobs" placeholder="Vị trí tuyển dụng" prefix-icon="Search"
                     v-model="searchValue">
           </el-input>
-          <el-button @click="onSearch" icon="Search" type="success">Tìm kiếm</el-button>
+          <el-button @click="getJobs" icon="Search" type="success">Tìm kiếm</el-button>
         </div>
       </div>
     </div>
@@ -17,19 +17,19 @@
       <h4>Trọng số</h4>
       <div class="filter">
         <div class="input-filter">
-          <label for="jobType">Loại công việc</label>
-          <el-input id="jobType" v-model="jobType"></el-input>
+          <label for="salary_expect">Mức lương mong muốn</label>
+          <el-input type="number" id="salary_expect" v-model="salary_expect"></el-input>
         </div>
         <div class="input-filter">
-          <label for="gender">Giới tính</label>
-          <el-input id="gender" v-model="gender"></el-input>
+          <label for="gpa">GPA</label>
+          <el-input type="number" id="gpa" v-model="gpa"></el-input>
         </div>
         <div class="input-filter">
           <label for="experience">Kinh nghiệm</label>
-          <el-input id="experience" v-model="experience"></el-input>
+          <el-input type="number" id="experience" v-model="experience"></el-input>
         </div>
         <div class="input-filter">
-          <el-button icon="Search" type="success">Lọc</el-button>
+          <el-button @click="getJobs" icon="Search" type="success">Lọc</el-button>
         </div>
       </div>
       <h3>Tìm thấy {{ jobs.length }} việc làm đang tuyển dụng</h3>
@@ -85,8 +85,8 @@ export default defineComponent({
       searchValue: '',
       users: [],
       currentDate: moment(),
-      jobType: 0,
-      gender: 0,
+      salary_expect: 0,
+      gpa: 0,
       experience: 0,
     }
   },
@@ -96,20 +96,19 @@ export default defineComponent({
       try {
         let params = {
           search: this.searchValue,
+          user_id: store.getters["auth/getUser"]?.id ?? '',
+          salary: parseFloat(this.salary_expect) ?? 0,
+          gpa: parseFloat(this.gpa) ?? 0,
+          experience: parseFloat(this.experience) ?? 0,
         }
         const response = await axios.get(
             "http://localhost:8000/api/get-job-suggests",
-            {},
+            {params: params},
         );
         this.jobs = response.data.data;
-        console.log(this.jobs)
       } catch (error) {
         console.error("Error fetching Jobs:", error);
       }
-    },
-    daysRemaining(value) {
-      const dueDate = moment(value);
-      return dueDate.diff(this.currentDate, 'days');
     },
     displayJobType(value) {
       switch (value) {
@@ -139,16 +138,6 @@ export default defineComponent({
         return 'Thương lượng';
       }
     },
-    displayGender(value) {
-      switch (value) {
-        case 0:
-          return 'Nữ';
-        case 1:
-          return 'Nam';
-        default:
-          return 'Không yêu cầu';
-      }
-    },
     displayExperience(value) {
       if (value) {
         return `${value} năm kinh nghiệm`;
@@ -166,9 +155,6 @@ export default defineComponent({
         console.error("Error fetching categories:", error);
       }
     },
-    onSearch() {
-      console.log(this.searchValue);
-    },
     onApply() {
     },
   },
@@ -178,13 +164,13 @@ export default defineComponent({
     this.userSelect = store.getters["auth/getUser"]?.id ?? '';
   },
   watch: {
-    jobType: function (newVal, oldVal) {
-      if (this.gender === 0 && this.experience === 0) {
-        this.gender = this.experience = (1 - newVal) / 2;
-      } else if (this.gender !== 0 || this.experience !== 0) {
-        if (this.gender !== 0) {
-          this.experience = 1 - this.gender - newVal;
-        } else this.gender = 1 - this.experience - newVal < 0 ? 0 : 1 - this.experience - newVal
+    salary_expect: function (newVal, oldVal) {
+      if (this.gpa === 0 && this.experience === 0) {
+        this.gpa = this.experience = (1 - newVal) / 2;
+      } else if (this.gpa !== 0 || this.experience !== 0) {
+        if (this.gpa !== 0) {
+          this.experience = 1 - this.gpa - newVal;
+        } else this.gpa = 1 - this.experience - newVal < 0 ? 0 : 1 - this.experience - newVal
       }
     },
   }
