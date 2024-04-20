@@ -13,9 +13,9 @@ class UserInfor extends Model
 
     protected $fillable = [
         'user_id',
-        'image',
-        'address',
-        'gender',
+        'gpa',
+        'salary_expect',
+        'experience',
         'created_at'
     ];
 }

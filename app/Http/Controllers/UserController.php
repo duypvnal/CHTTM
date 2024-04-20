@@ -65,6 +65,8 @@ class UserController extends BaseApiController
     {
         $search = $request->get('search');
         $userId = $request->get('user_id');
+        $user = User::find($userId);
+
 
         $query = CurrentJob::query();
         if ($search) {

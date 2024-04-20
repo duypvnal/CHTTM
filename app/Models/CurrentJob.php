@@ -20,24 +20,13 @@ class CurrentJob extends Model
 
     protected $fillable = [
         'name',
-        'category_id',
         'company_id',
-        'due_date',
         'salary_form',
         'salary_to',
-        'quantity',
-        'level',
         'experience',
-        'gender',
-        'job_position_ids',
-        'skill_ids',
+        'gpa_from',
         'job_type',
         'created_at'
-    ];
-
-    protected $casts = [
-        'skill_ids' => 'array',
-        'job_position_ids' => 'array',
     ];
 
     public function company(): \Illuminate\Database\Eloquent\Relations\BelongsTo
