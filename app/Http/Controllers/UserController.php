@@ -69,7 +69,7 @@ class UserController extends BaseApiController
         if ($search) {
             $query->where('name', 'like', '%' . $search . '%');
         }
-        $jobs = $query->with(['company'])->get();
+        $jobs = $query->where('category_id', $user->userInfor->category_id)->with(['company'])->get();
 
         if ($salaryWeight > 0 || $gpaWeight > 0 || $experienceWeight > 0) {
             //Chuẩn hoá dữ liệu người dùng
