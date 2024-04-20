@@ -48,11 +48,6 @@ class User extends Authenticatable
         ];
     }
 
-    public function userRequirements(): \Illuminate\Database\Eloquent\Relations\HasOne
-    {
-        return $this->hasOne(UserRequirement::class);
-    }
-
     public function userInfor(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(UserInfor::class);

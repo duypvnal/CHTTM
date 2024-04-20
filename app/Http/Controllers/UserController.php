@@ -14,6 +14,10 @@ use Illuminate\Http\Request;
 
 class UserController extends BaseApiController
 {
+    const MAX_SALARY = 20000000;
+    const MAX_EXPERIENCE = 3;
+    const MAX_GPA = 4;
+
     public function index(): JsonResponse
     {
         $users = User::all();
@@ -25,7 +29,7 @@ class UserController extends BaseApiController
 
     public function show($id)
     {
-        $user = User::with(['userRequirements', 'userInfor'])->find($id);
+        $user = User::with(['userInfor'])->find($id);
 
         return response()->json([
             'data' => $user,
@@ -48,20 +52,6 @@ class UserController extends BaseApiController
         ], 200);
     }
 
-    public function saveUserRequirements(Request $request): JsonResponse
-    {
-        $data = $request->all();
-        if (UserRequirement::updateOrInsert($data)) {
-            return response()->json([
-                'success' => true,
-            ], 200);
-        } else {
-            return response()->json([
-                'success' => false,
-            ], 200);
-        }
-    }
-
     public function getCompanySuggests()
     {
         $companySuggests = Company::inRandomOrder()->take(5)->get();
@@ -76,9 +66,7 @@ class UserController extends BaseApiController
         $search = $request->get('search');
         $userId = $request->get('user_id');
 
-        $userRequirements = UserRequirement::where('user_id', $userId)->with('userRequirements')->first();
-
-        $query = CurrentJob::where('due_date', '>', Carbon::now());
+        $query = CurrentJob::query();
         if ($search) {
             $query->where('name', 'like', '%' . $search . '%');
         }

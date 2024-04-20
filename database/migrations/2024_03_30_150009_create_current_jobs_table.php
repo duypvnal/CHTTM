@@ -15,16 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->integer('company_id');
-            $table->date('due_date');
-            $table->integer('salary_form')->nullable();
+            $table->integer('salary_from')->nullable();
             $table->integer('salary_to')->nullable();
-            $table->integer('quantity')->nullable();
-            $table->integer('level')->nullable();
-            $table->integer('experience')->nullable();
+            $table->float('experience')->nullable();
+            $table->float('gpa_from')->nullable();
             $table->integer('job_type')->nullable(); // 0: full-time, 1: part-time, 2: hybrid, 3: remote
-            $table->boolean('gender')->nullable();
-            $table->json('skill_ids')->nullable();
-            $table->json('job_position_ids')->nullable();
             $table->timestamps();
         });
     }

@@ -55,9 +55,8 @@
           <div class="info">
             <div class="label-content">
               <el-tag type="success"> {{ displayJobType(item.job_type) }}</el-tag>
-              <el-tag> {{ displayGender(item.gender) }}</el-tag>
+              <el-tag> GPA từ{{ item.gpa }}</el-tag>
               <el-tag type="warning"> {{ displayExperience(item.experience) }}</el-tag>
-              <el-tag type="info"> Còn {{ daysRemaining(item.due_date) }} ngày để ứng tuyển</el-tag>
             </div>
             <div class="icon">
               <el-button class="btn-apply" @click="onApply" type="success">Ứng tuyển</el-button>
