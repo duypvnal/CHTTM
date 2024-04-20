@@ -14,7 +14,7 @@
   </el-container>
   <el-container>
     <div class="job-list-search-result">
-      <h3>Tuyển dụng {{jobs.length}} việc làm</h3>
+      <h3>Tuyển dụng {{ jobs.length }} việc làm</h3>
       <div v-for="item in jobs" class="job-item-search-result">
         <div class="avatar"><img :src="item.company.image" alt=""/></div>
         <div class="body">
@@ -30,17 +30,16 @@
               </div>
             </div>
             <div class="salary-block">
-              <span>{{ item.minSalary }} - {{ item.maxSalary }} triệu</span>
+              <span>
+                {{ displaySalary(item.salary_form, item.salary_to) }}</span>
             </div>
           </div>
           <div class="info">
             <div class="label-content">
-              <label>
-                {{ item.region }}
-              </label>
-              <label>
-                Còn {{ item.time }} ngày để ứng tuyển
-              </label>
+              <el-tag type="success"> {{ displayJobType(item.job_type) }}</el-tag>
+              <el-tag> {{ displayGender(item.gender) }}</el-tag>
+              <el-tag type="warning"> {{ displayExperience(item.experience) }}</el-tag>
+              <el-tag type="info"> Còn {{ daysRemaining(item.due_date) }} ngày để ứng tuyển</el-tag>
             </div>
             <div class="icon">
               <el-button class="btn-apply" @click="onApply" type="success">Ứng tuyển</el-button>
@@ -55,6 +54,7 @@
 import {defineComponent} from "vue";
 import GlobalHeader from "../layout/GlobalHeader.vue";
 import store from "../stores/_loader.js";
+import moment from "moment";
 
 export default defineComponent({
   components: {GlobalHeader},
@@ -67,6 +67,7 @@ export default defineComponent({
       userSelect: '',
       searchValue: '',
       users: [],
+      currentDate: moment()
     }
   },
   computed: {},
@@ -82,6 +83,54 @@ export default defineComponent({
       } catch (error) {
         console.error("Error fetching Jobs:", error);
       }
+    },
+    daysRemaining(value) {
+      const dueDate = moment(value);
+      return dueDate.diff(this.currentDate, 'days');
+    },
+    displayJobType(value) {
+      switch (value) {
+        case 0:
+          return 'Full-time';
+        case 1:
+          return 'Part-time';
+        case 2:
+          return 'Hybrid';
+        case 3:
+          return 'Remote';
+        default:
+          return '';
+      }
+    },
+    displaySalary(minSalary, maxSalary) {
+      const formatNumber = (number) => {
+        return number.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'});
+      };
+      if (minSalary && maxSalary) {
+        return `${formatNumber(minSalary)} - ${formatNumber(maxSalary)} triệu`;
+      } else if (minSalary && !maxSalary) {
+        return `Từ ${formatNumber(minSalary)} triệu`;
+      } else if (!minSalary && maxSalary) {
+        return `Tới ${formatNumber(maxSalary)} triệu`;
+      } else {
+        return 'Thương lượng';
+      }
+    },
+    displayGender(value) {
+      switch (value) {
+        case 0:
+          return 'Nữ';
+        case 1:
+          return 'Nam';
+        default:
+          return 'Không yêu cầu';
+      }
+    },
+    displayExperience(value) {
+      if (value) {
+        return `${value} năm kinh nghiệm`;
+      }
+      return 'Không yêu cầu kinh nghiệm';
     },
     async getAllUsers() {
       try {
@@ -103,7 +152,7 @@ export default defineComponent({
   async mounted() {
     await this.getAllUsers()
     await this.getJobs()
-    this.userSelect = store.getters["auth/getUser"].id;
+    this.userSelect = store.getters["auth/getUser"]?.id ?? '';
   }
 })
 </script>
@@ -154,13 +203,11 @@ export default defineComponent({
 }
 
 .job-item-search-result {
-  background: #fff;
-  border: 1px solid transparent;
   border-radius: 8px;
   box-shadow: 0 8px 16px 0 rgba(1, 18, 34, .04);
   cursor: pointer;
   display: flex;
-  gap: 16px;
+  gap: 20px;
   grid-template-columns: 1fr 5fr;
   margin-bottom: 12px;
   padding: 12px;
@@ -177,15 +224,13 @@ export default defineComponent({
   .avatar {
     align-items: center;
     aspect-ratio: 1 / 1;
-    background: #fff;
-    background-color: #fff;
     border: 1px solid #e9eaec;
     border-radius: 8px;
     display: flex;
     height: 120px;
     margin: 0 auto;
     -o-object-fit: contain;
-    object-fit: contain;
+    object-fit: cover;
     padding: 8px;
     position: relative;
     width: 120px;
@@ -233,7 +278,7 @@ export default defineComponent({
       .icon {
         width: 150px;
         display: flex;
-        justify-content: center;
+        justify-content: flex-end;
 
         .btn-apply {
           align-items: center;
@@ -270,12 +315,12 @@ export default defineComponent({
     font-size: 14px;
     font-weight: 600;
     gap: 10px;
-    justify-content: center;
+    justify-content: flex-end;
     line-height: 20px;
     margin-bottom: 0;
     margin-top: 0;
     white-space: nowrap;
-    width: 150px;
+    width: 200px;
   }
 
   .title {

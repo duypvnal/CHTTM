@@ -8,6 +8,7 @@ use App\Models\JobPosition;
 use App\Models\Skill;
 use App\Models\User;
 use App\Models\UserRequirement;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -72,7 +73,7 @@ class UserController extends BaseApiController
 
     public function getJobSuggests(Request $request)
     {
-        $jobSuggests = CurrentJob::with(['company'])->inRandomOrder()->take(5)->get();
+        $jobSuggests = CurrentJob::where('due_date', '>', Carbon::now())->with(['company'])->inRandomOrder()->get();
 
         return response()->json([
             'data' => $jobSuggests,

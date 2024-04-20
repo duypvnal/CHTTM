@@ -3,15 +3,16 @@ import {defineComponent} from "vue";
 import AppLayout from "../layout/AppLayout.vue"
 
 export default defineComponent({
-    components: {AppLayout},
+  components: {AppLayout},
 });
 </script>
 <template>
-    <router-view/>
+  <router-view/>
 </template>
 <style lang="scss">
 #app {
-    width: 100vw;
-    overflow-x: hidden;
+  width: 100vw;
+  overflow-x: hidden;
+  font-family: "Arial", sans-serif;
 }
 </style>

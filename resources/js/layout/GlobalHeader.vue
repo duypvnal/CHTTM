@@ -57,7 +57,7 @@ export default defineComponent({
     },
   },
   async mounted() {
-    this.selected = store.getters["auth/getUser"].id;
+    this.selected = store.getters["auth/getUser"]?.id ?? '';
   }
 })
 </script>
@@ -69,7 +69,7 @@ export default defineComponent({
   display: flex;
   width: 100%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  font-family: sans-serif;
+  font-family: "Arial", sans-serif;
 
   .el-header {
     height: 100%;
