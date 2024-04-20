@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('quantity')->nullable();
             $table->integer('level')->nullable();
             $table->integer('experience')->nullable();
-            $table->integer('job_type')->nullable(); // 0: full-time, 1: part-time, 3: hybrid, 4: remote
+            $table->integer('job_type')->nullable(); // 0: full-time, 1: part-time, 2: hybrid, 3: remote
             $table->boolean('gender')->nullable();
             $table->json('skill_ids')->nullable();
             $table->json('job_position_ids')->nullable();

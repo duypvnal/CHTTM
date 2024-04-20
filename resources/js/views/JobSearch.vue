@@ -14,7 +14,25 @@
   </el-container>
   <el-container>
     <div class="job-list-search-result">
-      <h3>Tuyển dụng {{ jobs.length }} việc làm</h3>
+      <h4>Trọng số</h4>
+      <div class="filter">
+        <div class="input-filter">
+          <label for="jobType">Loại công việc</label>
+          <el-input id="jobType" v-model="jobType"></el-input>
+        </div>
+        <div class="input-filter">
+          <label for="gender">Giới tính</label>
+          <el-input id="gender" v-model="gender"></el-input>
+        </div>
+        <div class="input-filter">
+          <label for="experience">Kinh nghiệm</label>
+          <el-input id="experience" v-model="experience"></el-input>
+        </div>
+        <div class="input-filter">
+          <el-button icon="Search" type="success">Lọc</el-button>
+        </div>
+      </div>
+      <h3>Tìm thấy {{ jobs.length }} việc làm đang tuyển dụng</h3>
       <div v-for="item in jobs" class="job-item-search-result">
         <div class="avatar"><img :src="item.company.image" alt=""/></div>
         <div class="body">
@@ -67,13 +85,19 @@ export default defineComponent({
       userSelect: '',
       searchValue: '',
       users: [],
-      currentDate: moment()
+      currentDate: moment(),
+      jobType: 0,
+      gender: 0,
+      experience: 0,
     }
   },
   computed: {},
   methods: {
     async getJobs() {
       try {
+        let params = {
+          search: this.searchValue,
+        }
         const response = await axios.get(
             "http://localhost:8000/api/get-job-suggests",
             {},
@@ -153,6 +177,17 @@ export default defineComponent({
     await this.getAllUsers()
     await this.getJobs()
     this.userSelect = store.getters["auth/getUser"]?.id ?? '';
+  },
+  watch: {
+    jobType: function (newVal, oldVal) {
+      if (this.gender === 0 && this.experience === 0) {
+        this.gender = this.experience = (1 - newVal) / 2;
+      } else if (this.gender !== 0 || this.experience !== 0) {
+        if (this.gender !== 0) {
+          this.experience = 1 - this.gender - newVal;
+        } else this.gender = 1 - this.experience - newVal < 0 ? 0 : 1 - this.experience - newVal
+      }
+    },
   }
 })
 </script>
@@ -199,7 +234,31 @@ export default defineComponent({
 .job-list-search-result {
   width: 1174px;
   margin: auto;
-  margin-top: 40px;
+  margin-bottom: 100px;
+
+  .filter {
+    display: flex;
+
+    .input-filter {
+      display: flex;
+      justify-content: flex-start;
+      margin-right: 20px;
+
+      button {
+        background-color: #00c056;
+      }
+
+      label {
+        margin-right: 10px;
+        white-space: nowrap;
+        align-content: center;
+      }
+
+      .el-input {
+        width: 80px !important;
+      }
+    }
+  }
 }
 
 .job-item-search-result {

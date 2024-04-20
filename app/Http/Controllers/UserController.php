@@ -73,8 +73,16 @@ class UserController extends BaseApiController
 
     public function getJobSuggests(Request $request)
     {
-        $jobSuggests = CurrentJob::where('due_date', '>', Carbon::now())->with(['company'])->inRandomOrder()->get();
+        $search = $request->get('search');
+        $userId = $request->get('user_id');
 
+        $userRequirements = UserRequirement::where('user_id', $userId)->with('userRequirements')->first();
+
+        $query = CurrentJob::where('due_date', '>', Carbon::now());
+        if ($search) {
+            $query->where('name', 'like', '%' . $search . '%');
+        }
+        $jobSuggests = $query->with(['company'])->inRandomOrder()->get();
         return response()->json([
             'data' => $jobSuggests,
         ], 200);
