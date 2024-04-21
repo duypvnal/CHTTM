@@ -60,10 +60,10 @@ class UserController extends BaseApiController
     public function getJobSuggests(Request $request)
     {
         $search = $request->get('search');
-        $userId = $request->get('user_id');
-        $salaryWeight = $request->get('salary');
-        $gpaWeight = $request->get('gpa');
-        $experienceWeight = $request->get('experience');
+        $userId = (int)$request->input('user_id');
+        $salaryWeight = floatval($request->get('salary'));
+        $gpaWeight = floatval($request->get('gpa'));
+        $experienceWeight = floatval($request->get('experience'));
         $user = User::with('userInfor')->find($userId);
         $query = CurrentJob::query();
         if ($search) {
@@ -84,22 +84,23 @@ class UserController extends BaseApiController
                 $gpa = ($job->gpa_from <= self::MAX_GPA) ? $job->gpa_from / self::MAX_GPA : 1;
                 $experience = ($job->experience <= self::MAX_EXPERIENCE) ? $job->experience / self::MAX_EXPERIENCE : 1;
                 $dataOfJobs[] = [
-                    'salary' => $salary,
                     'gpa' => $gpa,
                     'experience' => $experience,
+                    'salary' => $salary,
                 ];
             }
+
             $weighted_user_values = [
-                'salary' => $userSalary * $salaryWeight,
                 'gpa' => $userGpa * $gpaWeight,
                 'experience' => $userExperience * $experienceWeight,
+                'salary' => $userSalary * $salaryWeight,
             ];
             $weighted_job_values = [];
             foreach ($dataOfJobs as $dataOfJob) {
                 $weighted_job_values[] = [
-                    'salary' => $dataOfJob['salary'] * $salaryWeight,
                     'gpa' => $dataOfJob['gpa'] * $gpaWeight,
                     'experience' => $dataOfJob['experience'] * $experienceWeight,
+                    'salary' => $dataOfJob['salary'] * $salaryWeight,
                 ];
             }
 

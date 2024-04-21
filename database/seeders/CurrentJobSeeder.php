@@ -175,12 +175,32 @@ class CurrentJobSeeder extends Seeder
             ],
             [
                 'name' => 'Giáo Viên IELTS - Giáo Viên Tiếng Anh',
-                'company_id' => 4,
+                'company_id' => 9,
                 'salary_from' => 10000000,
                 'salary_to' => 18500000,
                 'experience' => 2,
-                'category_id' => 2,
+                'category_id' => 4,
                 'gpa_from' => 2.8,
+                'job_type' => 1
+            ],
+            [
+                'name' => 'Giáo Viên Tiếng Nhật',
+                'company_id' => 8,
+                'salary_from' => 10000000,
+                'salary_to' => 15500000,
+                'experience' => 1,
+                'category_id' => 4,
+                'gpa_from' => 2.5,
+                'job_type' => 1
+            ],
+            [
+                'name' => 'Giáo Viên Tiếng Nhật',
+                'company_id' => 1,
+                'salary_from' => 10000000,
+                'salary_to' => 16500000,
+                'experience' => 1.5,
+                'category_id' => 4,
+                'gpa_from' => 2.5,
                 'job_type' => 1
             ],
         ];
