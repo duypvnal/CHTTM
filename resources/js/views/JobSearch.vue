@@ -152,7 +152,7 @@ export default defineComponent({
         );
         this.users = response.data.data;
       } catch (error) {
-        console.error("Error fetching categories:", error);
+        console.error("Error fetching users:", error);
       }
     },
     onApply() {

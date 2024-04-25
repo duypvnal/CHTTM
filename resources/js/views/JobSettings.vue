@@ -5,7 +5,8 @@
       <img src="https://static.topcv.vn/v4/image/suggest-job-setting/banner.png" alt="">
     </div>
     <div class="box-header">
-      <h4>Bạn vui lòng hoàn thiện các thông tin dưới đây</h4>
+      <h4>Ngành nghề: <i v-if="userId === 2"> Giáo dục</i><i v-if="userId === 1">IT Phần Mềm</i><i v-else>Kinh doanh</i>
+      </h4>
     </div>
     <el-form ref="form" class="form" @submit="submit">
       <div class="box-content">
