@@ -1,0 +1,39 @@
+name: SBOM Scan
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  sbom-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.1'  # Set to your Laravel project's PHP version
+
+    - name: Install Composer dependencies
+      run: composer install --no-progress --no-suggest --prefer-dist
+
+    - name: Install CycloneDX-PHP-Composer
+      run: composer require --dev cyclonedx/cyclonedx-php-composer
+
+    - name: Generate SBOM
+      run: composer cyclonedx:make-sbom
+
+    - name: Convert SBOM to HTML
+      run: |
+        xsltproc bom-to-html.xsl bom.xml -o bom.html
+
+    - name: Upload SBOM artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: sbom-html
+        path: bom.html
