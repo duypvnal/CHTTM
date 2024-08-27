@@ -1,0 +1,44 @@
+name: SBOM Scan
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  sbom-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.1'  # Set to your Laravel project's PHP version
+
+    - name: Install Composer dependencies
+      run: composer install --no-progress --no-suggest --prefer-dist
+
+    - name: Install CycloneDX-PHP-Composer
+      run: composer require --dev cyclonedx/cyclonedx-php-composer
+
+    - name: Generate SBOM
+      run: composer cyclonedx:make-sbom
+
+    - name: Upload SBOM artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: sbom
+        path: bom.xml
+
+    # Optionally, you could analyze the SBOM with another tool or service here
+    # For example, you could use a vulnerability scanner to check the SBOM for known issues
+
+    - name: Analyze SBOM (Optional)
+      run: |
+        # Example of how you might analyze the SBOM using an external tool
+        # Assuming you have a tool that takes bom.xml and analyzes it
+        # analysis-tool bom.xml
