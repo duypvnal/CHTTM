@@ -28,12 +28,6 @@ jobs:
     - name: Generate SBOM
       run: composer cyclonedx:make-sbom
 
-    - name: Convert SBOM to HTML
-      run: |
-        xsltproc bom-to-html.xsl bom.xml -o bom.html
+    - name: Scan Sbom
+      run: composer cyclonedx:make-sbom
 
-    - name: Upload SBOM artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: sbom-html
-        path: bom.html
