@@ -64,6 +64,7 @@ class UserController extends BaseApiController
         $salaryWeight = floatval($request->get('salary'));
         $gpaWeight = floatval($request->get('gpa'));
         $experienceWeight = floatval($request->get('experience'));
+
         $user = User::with('userInfor')->find($userId);
         $query = CurrentJob::query();
         if ($search) {
@@ -76,31 +77,31 @@ class UserController extends BaseApiController
             $userSalary = ($user->userInfor->salary_expect <= self::MAX_SALARY) ? $user->userInfor->salary_expect / self::MAX_SALARY : 1;
             $userGpa = ($user->userInfor->gpa <= self::MAX_GPA) ? $user->userInfor->gpa / self::MAX_GPA : 1;
             $userExperience = ($user->userInfor->experience <= self::MAX_EXPERIENCE) ? $user->userInfor->experience / self::MAX_EXPERIENCE : 1;
-            $dataOfJobs = [];
 
             //Chuẩn hoá dữ liệu job
+            $dataOfJobs = [];
             foreach ($jobs as $job) {
                 $salary = ($job->salary_to <= self::MAX_SALARY) ? $job->salary_to / self::MAX_SALARY : 1;
                 $gpa = ($job->gpa_from <= self::MAX_GPA) ? $job->gpa_from / self::MAX_GPA : 1;
                 $experience = ($job->experience <= self::MAX_EXPERIENCE) ? $job->experience / self::MAX_EXPERIENCE : 1;
                 $dataOfJobs[] = [
-                    'gpa' => $gpa,
                     'experience' => $experience,
                     'salary' => $salary,
+                    'gpa' => $gpa,
                 ];
             }
-
+//            dd($dataOfJobs);
             $weighted_user_values = [
-                'gpa' => $userGpa * $gpaWeight,
                 'experience' => $userExperience * $experienceWeight,
                 'salary' => $userSalary * $salaryWeight,
+                'gpa' => $userGpa * $gpaWeight,
             ];
             $weighted_job_values = [];
             foreach ($dataOfJobs as $dataOfJob) {
                 $weighted_job_values[] = [
-                    'gpa' => $dataOfJob['gpa'] * $gpaWeight,
                     'experience' => $dataOfJob['experience'] * $experienceWeight,
                     'salary' => $dataOfJob['salary'] * $salaryWeight,
+                    'gpa' => $dataOfJob['gpa'] * $gpaWeight,
                 ];
             }
 
