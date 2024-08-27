@@ -28,6 +28,3 @@ jobs:
     - name: Generate SBOM
       run: composer cyclonedx:make-sbom
 
-    - name: Scan Sbom
-      run: composer cyclonedx:make-sbom
-
